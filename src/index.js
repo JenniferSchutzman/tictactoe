@@ -10,6 +10,34 @@ function Square(props) {
   )
 }
 
+// function Board(props) {
+//   function renderSquare(i) {
+//     return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />
+//   }
+//
+//  render() {
+//     return (
+//       <div>
+//         <div className="board-row">
+//           {renderSquare(0)}
+//           {renderSquare(1)}
+//           {renderSquare(2)}
+//         </div>
+//         <div className="board-row">
+//           {renderSquare(3)}
+//           {renderSquare(4)}
+//           {renderSquare(5)}
+//         </div>
+//         <div className="board-row">
+//           {renderSquare(6)}
+//           {renderSquare(7)}
+//           {renderSquare(8)}
+//         </div>
+//       </div>
+//     )
+//   }
+// }
+
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -42,7 +70,6 @@ class Board extends React.Component {
     )
   }
 }
-
 class Game extends React.Component {
   constructor(props) {
     super(props)
@@ -89,18 +116,21 @@ class Game extends React.Component {
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = calculateWinner(current.squares)
-
+    var buttonToDisplay
     const moves = history.map((step, move) => {
       const desc = move
         ? `(${step.location}) Go to move # move`
         : `Go to game start`
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>
-            <b>{desc}</b>
-          </button>
-        </li>
-      )
+      current != step
+        ? (buttonToDisplay = (
+            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          ))
+        : (buttonToDisplay = (
+            <button onClick={() => this.jumpTo(move)}>
+              <strong>{desc}</strong>
+            </button>
+          ))
+      return <li key={move}>{buttonToDisplay}</li>
     })
 
     let status
